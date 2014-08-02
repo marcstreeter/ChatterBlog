@@ -9,9 +9,28 @@ class Member(object):
     __password = ""
     __name = ""
 
-    def __init__(self, id):
-        session =  db.session()
+    def __init__(self, name, password, email, phone):
+        self.__email = email
+        self.__phone = phone
+        self.__password = password
+        self.__name = name
 
+
+    @classmethod
+    def get_member(cls, id):
+        session =  db.session()
+        # set variables from id
+        name = ""
+        password = ""
+        email = ""
+        phone = ""
+        reputation = ""
+        try:
+            existing_member =  cls(name=name, password=password, email=email, phone=phone)
+        except:
+            return None
+
+        existing_member.__reputation = reputation
 
     @property
     def name(self):
@@ -40,6 +59,10 @@ class Member(object):
     @phone.setter
     def phone(self, value):
         self.__phone = value
+
+    @property
+    def reputation(self):
+        return self.__reputation
 
     # important inherited values
 

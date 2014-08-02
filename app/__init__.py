@@ -13,8 +13,8 @@ from app.config import config
 from member import member_blueprint
 from status import status_blueprint
 ## Library
-from app.lib import error
-from app.lib.response import jsonified
+from app.shared import error
+from app.shared.response import jsonified
 
 logger = logging.getLogger(config.root_logger[:-1])  # root logger mustn't have the trailing '.'
 

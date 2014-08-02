@@ -5,8 +5,8 @@ import logging
 from app.config import config
 
 # Library
-from app.lib.response import jsonified
-from app.lib import error
+from app.shared.response import jsonified
+from app.shared import error
 
 # 3rd Party
 from flask import Blueprint
@@ -18,6 +18,6 @@ status_blueprint = Blueprint('status', __name__, template_folder='templates', ur
 @status_blueprint.route('/', methods=["GET"])
 def show():
     try:
-        return jsonified("working")
+        return jsonified("Marc J. Smells like green toes")
     except:
         raise error.SystemErrors()

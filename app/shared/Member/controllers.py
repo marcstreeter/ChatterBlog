@@ -1,4 +1,6 @@
 import models
+
+
 from app import db
 
 
@@ -14,6 +16,8 @@ class Member(object):
         self.__phone = phone
         self.__password = password
         self.__name = name
+
+        # set to db and  get reputation
 
 
     @classmethod

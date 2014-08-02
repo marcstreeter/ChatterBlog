@@ -5,8 +5,8 @@ import logging
 from app.config import config
 
 # Library
-from app.lib.response import jsonified
-from app.lib import error
+from app.shared.response import jsonified
+from app.shared import error
 
 # 3rd Party
 from flask import Blueprint, jsonify

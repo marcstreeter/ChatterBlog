@@ -6,20 +6,19 @@ import logging
 from app import db
 from app.config import config
 
+
 logger = logging.getLogger(config.root_logger + __name__)
 
 
 class Member(db.Model):
-    __tablename__ = "user"
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(100), unique=True)
+    name = db.Column(db.String(120))
     password = db.Column(db.String(100))
     #profile
     email = db.Column(db.String(120), unique=True)
-    alias = db.relationship("Alias", backref="user")
-    name = db.relationship("Name", backref="user")
-    loc = db.relationship("Location", backref="user")
-    reputation = db.relationship("Reputation", backref="user")
+    alias = db.relationship("Alias", backref="member")
+    loc = db.relationship("Location", backref="member")
+    reputation = db.relationship("Reputation", backref="member")
     created = db.Column(db.DateTime, default=datetime.datetime.utcnow)
     phone = db.Column(db.String(20))
 
@@ -30,10 +29,8 @@ class Member(db.Model):
         self.name = name
         self.phone = phone
 
-
     def __repr__(self):
         return '<User {username}({name})email:{email}>'.format(name=self.name, email=self.email, username=self.username)
-
 
     @property
     def serialize(self):
@@ -63,3 +60,23 @@ class Member(db.Model):
     def get_id(self):
         return self.id
         #Returns a unicode that uniquely identifies this user, and can be used to load the user from the user_loader callback. Note that this must be a unicode - if the ID is natively an int or some other type, you will need to convert it to unicode.
+
+
+class Alias(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(120))
+    user_id = db.Column(db.Integer, db.ForeignKey("Member.id", backref="alias"))
+
+
+class Location(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    lat = db.Column(db.Float(precision=64), nullable=False)
+    lon = db.Column(db.Float(precision=64), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('Member.id'), backref="location")
+
+
+class Reputation(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    rating = db.Column(db.Integer)
+    user_id = db.Column(db.Integer, db.ForeignKey("Member.id"), backref="reputation")
+
